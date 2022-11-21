@@ -39,7 +39,19 @@ RUN set -ex; \
   if [ "${ALPINE_VERSION}" = "edge" ]; then echo "http://dl-cdn.alpinelinux.org/alpine/${ALPINE_VERSION}/testing" >>"/etc/apk/repositories" ; fi ; \
   apk update --update-cache && apk add --no-cache ${PACK_LIST}
 
-RUN echo
+RUN echo "Creating env file"; \
+  cat <<EOF | tee /root/env.sh &>/dev/null
+export ENV=~/.bashrc
+export LANG=en_US.UTF-8
+export SHELL="/bin/bash"
+export PORT=${SERVICE_PORT}
+export TERM="xterm-256color"
+export PHP_SERVER="${PHP_SERVER}"
+export TIMEZONE="${TZ:-$TIMEZONE}"
+export TZ="${TZ:-America/New_York}"
+export CONTAINER_NAME="${IMAGE_NAME}"
+export HOSTNAME="casjaysdev-${IMAGE_NAME}"
+EOF
 
 RUN echo 'Running cleanup' ; \
   rm -Rf /usr/share/doc/* /usr/share/info/* /tmp/* /var/tmp/* ; \
@@ -54,18 +66,6 @@ RUN echo 'Running cleanup' ; \
   if [ -d "/lib/systemd/system/sysinit.target.wants" ]; then cd "/lib/systemd/system/sysinit.target.wants" && rm $(ls | grep -v systemd-tmpfiles-setup) ; fi
 
 FROM scratch
-
-ARG \
-  SERVICE_PORT \
-  EXPOSE_PORTS \
-  PHP_SERVER \
-  NODE_VERSION \
-  NODE_MANAGER \
-  BUILD_VERSION \
-  LICENSE \
-  IMAGE_NAME \
-  BUILD_DATE \
-  TIMEZONE
 
 LABEL maintainer="CasjaysDev <docker-admin@casjaysdev.com>" \
   org.opencontainers.image.vendor="CasjaysDev" \
@@ -84,17 +84,6 @@ LABEL maintainer="CasjaysDev <docker-admin@casjaysdev.com>" \
   org.opencontainers.image.documentation="https://hub.docker.com/r/casjaysdevdocker/${IMAGE_NAME}" \
   org.opencontainers.image.description="Containerized version of ${IMAGE_NAME}" \
   com.github.containers.toolbox="false"
-
-ENV LANG=en_US.UTF-8 \
-  ENV=~/.bashrc \
-  SHELL="/bin/bash" \
-  PORT="${SERVICE_PORT}" \
-  TERM="xterm-256color" \
-  PHP_SERVER="${PHP_SERVER}" \
-  CONTAINER_NAME="${IMAGE_NAME}" \
-  TZ="${TZ:-America/New_York}" \
-  TIMEZONE="${TZ:-$TIMEZONE}" \
-  HOSTNAME="casjaysdev-${IMAGE_NAME}"
 
 COPY --from=build /. /
 
