@@ -83,9 +83,9 @@ DEFAULT_TEMPLATE_DIR="${DEFAULT_TEMPLATE_DIR:-/usr/local/share/template-files/de
 CONTAINER_IP_ADDRESS="$(ip a 2>/dev/null | grep 'inet' | grep -v '127.0.0.1' | awk '{print $2}' | sed 's|/.*||g')"
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Overwrite variables
-WORKDIR="/usr/local/memos"
+WORKDIR="/data/memos"
 SERVICE_PORT="$PORT"
-SERVICE_NAME="node"
+SERVICE_NAME="memos"
 SERVICE_COMMAND="$SERVICE_NAME --mode prod --port $SERVICE_PORT"
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

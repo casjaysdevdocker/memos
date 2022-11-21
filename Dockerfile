@@ -99,7 +99,7 @@ ENV LANG=en_US.UTF-8 \
 COPY --from=build /. /
 
 USER root
-WORKDIR /usr/local/memos
+WORKDIR /data/memos
 
 VOLUME [ "/config","/data" ]
 
