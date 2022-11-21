@@ -18,7 +18,8 @@ ARG BUILD_VERSION="latest"
 ARG TIMEZONE="America/New_York"
 ARG BUILD_DATE="Sun Nov 20 01:47:56 PM EST 2022"
 
-ARG PACK_LIST="bash"
+ARG PACK_LIST="bash iproute2 bash-completion ssmtp openssl wget curl jq ca-certificates tzdata mailcap git ncurses \
+  util-linux pciutils usbutils coreutils binutils findutils grep iproute2 sudo rsync zip certbot tini"
 
 ENV LANG=en_US.UTF-8
 ENV ENV=ENV=~/.bashrc
