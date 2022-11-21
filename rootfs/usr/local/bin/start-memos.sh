@@ -85,7 +85,7 @@ CONTAINER_IP_ADDRESS="$(ip a 2>/dev/null | grep 'inet' | grep -v '127.0.0.1' | a
 # Overwrite variables
 WORKDIR="/usr/local/memos"
 SERVICE_PORT="$PORT"
-SERVICE_NAME="memos"
+SERVICE_NAME="node"
 SERVICE_COMMAND="$SERVICE_NAME --mode prod --port $SERVICE_PORT"
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
